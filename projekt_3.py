@@ -11,7 +11,7 @@ import pandas as pd
 import argparse
 import sys
 
-# Funkce pro získání základních dat o obcích (kód a název) + odkaz na detaily
+# Funkce pro získání základních dat o obcích (kód a název) + odkaz na detaily z voleb (počet hlasů, názvy jednotlivých stran, počet obálek a validních hlasů)
 def get_city_data_with_links(url):
     try:
         response = requests.get(url)
@@ -31,15 +31,14 @@ def get_city_data_with_links(url):
     for div in divs:
         table = div.find('table', class_='table')
         if table:
-            # Projdeme všechny <tr> v tabulce
+            # Projdeme všechny <tr> v tabulce a získáme hodnoty z <td> s třídou "cislo" a "overflow_name"
             for row in table.find_all('tr'):
-                # Získáme hodnoty z <td> s třídou "cislo" a "overflow_name"
                 code_td = row.find('td', class_='cislo')
                 name_td = row.find('td', class_='overflow_name')
                 detail_td = row.find('td', class_='center')
 
                 if code_td and name_td and detail_td:
-                    # Získáme text z obou <td> a odkaz na detaily
+                    # Získáme text z obou <td> a odkaz na detaily, který uchováme pro další zpracování
                     city_code = code_td.get_text(strip=True)
                     city_name = name_td.get_text(strip=True)
                     detail_link_tag = detail_td.find('a', href=True)
@@ -48,7 +47,7 @@ def get_city_data_with_links(url):
                         city_data.append({
                             'CityCode': city_code,
                             'CityName': city_name,
-                            'DetailLink': detail_link  # Uchováme odkaz pro další zpracování
+                            'DetailLink': detail_link
                         })
 
     return city_data
