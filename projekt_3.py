@@ -51,7 +51,7 @@ def extract_city_info_from_table(table):
 def extract_city_info_from_row(row):
     code_td = row.find('td', class_='cislo')
     name_td = row.find('td', class_='overflow_name')
-    detail_td = row.find('td', class_='center')
+    detail_td = row.find('td', class_='cislo')
 
     if code_td and name_td and detail_td:
         city_code = code_td.get_text(strip=True)
