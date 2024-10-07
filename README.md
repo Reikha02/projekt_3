@@ -48,7 +48,7 @@ Projekt obsahuje dohromady 4 soubory, kterými jsou:
 
 #### Příklad použití:
 ```bash
-python projekt_3.py "https://volby.cz/pls/ps2017nss/ps1111?xjazyk=CZ&xkraj=02&xnumnuts=2102&xobec=531061" vysledky_beroun.csv
+python projekt_3.py "https://www.volby.cz/pls/ps2017nss/ps1111?xjazyk=CZ&xkraj=02&xnumnuts=2102&xobec=531061" vysledky_beroun.csv
 ```
 Tento příkaz stáhne volební výsledky pro Beroun a uloží je do souboru vysledky_beroun.csv.
 Doporučuji vkládat URL adresy uvnitř uvozovek, abyste se vyhnuli chybám při špatné interpretaci znaků Pythonem.
