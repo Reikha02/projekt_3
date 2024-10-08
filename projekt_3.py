@@ -114,6 +114,18 @@ def extract_party_info(row):
     party_votes_count = party_votes_td.get_text(strip=True) if party_votes_td else None
     return party_name, party_votes_count
 
+# 13. Funkce pro zpracování dat jednotlivých měst
+def process_city_data(city_data):
+    all_results = []
+    for city in city_data:
+        city_html = fetch_html(city['DetailLink'])
+        if city_html:
+            details = extract_city_details(city_html)
+            city.update(details)
+            del city['DetailLink']  # Odstranění detailního odkazu po zpracování
+            all_results.append(city)
+    return all_results
+
 # Hlavní funkce, která koordinuje celý proces
 def main():
     parser = argparse.ArgumentParser(description='Scraping volebních výsledků z webu.')
@@ -138,14 +150,7 @@ def main():
 
     print(f"Nalezeno {len(city_data)} měst. Začínám stahovat detailní výsledky...")
 
-    all_results = []
-    for city in city_data:
-        city_html = fetch_html(city['DetailLink'])
-        if city_html:
-            details = extract_city_details(city_html)
-            city.update(details)
-            del city['DetailLink']
-            all_results.append(city)
+    all_results = process_city_data(city_data)
 
     df = pd.DataFrame(all_results)
     df.to_csv(args.output_file, index=False)
